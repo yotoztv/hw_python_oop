@@ -1,5 +1,11 @@
 class InfoMessage:
-    """Информационное сообщение о тренировке."""
+
+    TEXT_OUT_FINAL: str = ("Тип тренировки: {}; "
+                           "Длительность: {:.3f} ч.; "
+                           "Дистанция: {:.3f} км; "
+                           "Ср. скорость: {:.3f} км/ч; "
+                           "Потрачено ккал: {:.3f}.")
+
     def __init__(self,
                  training_type: str,
                  duration: float,
@@ -14,11 +20,8 @@ class InfoMessage:
         self.calories = calories
 
     def get_message(self) -> str:
-        return f"Тип тренировки: {self.training_type}; "\
-               f"Длительность: {self.duration:.3f} ч.; "\
-               f"Дистанция: {self.distance:.3f} км; "\
-               f"Ср. скорость: {self.speed:.3f} км/ч; "\
-               f"Потрачено ккал: {self.calories:.3f}."
+        return (self.TEXT_OUT_FINAL.format(self.training_type, self.duration,
+                self.distance, self.speed, self.calories))
 
 
 class Training:
@@ -35,16 +38,14 @@ class Training:
         self.action = action
         self.duration = duration
         self.weight = weight
-        self.len_step: float = 0.65
-        self.len_step = 0.65
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
-        return self.action * self.len_step / self.M_IN_KM
+        return self.action * self.LEN_STEP / self.M_IN_KM
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
-        return self.action * self.len_step / self.M_IN_KM / self.duration
+        return self.action * self.LEN_STEP / self.M_IN_KM / self.duration
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
@@ -111,7 +112,6 @@ class Swimming(Training):
     def __init__(self, action: int, duration: float, weight: float,
                  length_pool: float, count_pool: float) -> None:
         super().__init__(action, duration, weight)
-        self.len_step = 1.38
         self.length_pool = length_pool
         self.count_pool = count_pool
         """Умышленно сделал счетчик бассейнов флоат,
